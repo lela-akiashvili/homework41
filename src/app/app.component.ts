@@ -23,13 +23,33 @@ export class AppComponent {
   ];
   fruits = ['apple', 'banana', 'peach', 'plum', 'orange'];
 
+  /*
+ორი ვერსიით შევძელი ამოხსნა მაგრამ, რამდენად პასუხობს რომელიმე თვითონ დავალებას ზუსტად არ ვიცი,რადგან ორივე შემთხვევში მიწევს რომ app.component.ts-ში ცვლილებები შევიტანო. პირველ შემთხვევაში ფუნქციებს arrow function-ებად ვაქცევ და შემდეგ ვიყენებ wrapFn-ს:
+
 filterPeopleFn = (key: string): Person[] =>{
+  return this.people.filter(
+    (person) =>
+      person.firstName.includes(key) || person.lastName.includes(key)
+  );
+}
+filterFruitsFn = (key: string) =>{
+  return this.fruits.filter((fruit) => fruit.includes(key));
+}
+ მეორე ვერსია ესაა, bind-ის გამოყენებით. მაგრამ, გამომდინარე იქიდან, რომ საწყის ts-ში შემქავს ცვლილებები და მხოლოდ wrapFn-ის მანიპულირებით ვერ ვაკეთებ, არ ვარ დარწმუნებული რომ სწორი გზით ვხსნი ამოცანას.
+*/
+
+  constructor() {
+    this.filterPeopleFn = this.filterPeopleFn.bind(this);
+    this.filterFruitsFn = this.filterFruitsFn.bind(this);
+  }
+
+  filterPeopleFn(key: string): Person[] {
     return this.people.filter(
       (person) =>
         person.firstName.includes(key) || person.lastName.includes(key)
     );
   }
-  filterFruitsFn = (key: string) =>{
+  filterFruitsFn(key: string) {
     return this.fruits.filter((fruit) => fruit.includes(key));
   }
 }
